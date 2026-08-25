@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CourseService } from '../../services/course.service';
 
 @Component({
   imports: [],
@@ -6,4 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './courses.css',
   templateUrl: './courses.html',
 })
-export class Courses {}
+export class Courses {
+  private readonly courseService = inject(CourseService);
+
+  courses = toSignal(this.courseService.getCourses(), {
+    initialValue: [],
+  });
+}
