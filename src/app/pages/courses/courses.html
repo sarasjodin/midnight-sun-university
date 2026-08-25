@@ -2,7 +2,16 @@
 
 <p>Browse courses and add them to your study plan.</p>
 
-<p><strong>Number of courses</strong> {{ courses().length }}</p>
+<label for="course-search">Search courses</label>
+
+<input
+  id="course-search"
+  type="text"
+  placeholder="Search by code or course name"
+  (input)="searchTerm.set($any($event.target).value)"
+/>
+
+<p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
 
 <table>
   <thead>
@@ -16,7 +25,7 @@
   </thead>
 
   <tbody>
-    @for (course of courses(); track course.courseCode) {
+    @for (course of filteredCourses(); track course.courseCode) {
       <tr>
         <td>{{ course.courseCode }}</td>
         <td>
