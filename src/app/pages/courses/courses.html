@@ -1,3 +1,17 @@
 <h1>Course catalogue</h1>
 
 <p>Browse courses and add them to your study plan.</p>
+
+<h2>Första kursen i listan</h2>
+
+@if (courses()[0]; as course) {
+  <p>Kurskod: {{ course.courseCode }}</p>
+  <p>Ämneskod: {{ course.subjectCode }}</p>
+  <p>Nivå: {{ course.level }}</p>
+  <p>Progression: {{ course.progression }}</p>
+  <p>Kursnamn: {{ course.courseName }}</p>
+  <p>Poäng: {{ course.points }}</p>
+  <p>Institutionskod: {{ course.institutionCode }}</p>
+  <p>Ämne: {{ course.subject }}</p>
+  <p>Kursplan: {{ course.syllabus }}</p>
+}
