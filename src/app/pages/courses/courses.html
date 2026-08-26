@@ -8,7 +8,7 @@
   id="course-search"
   type="text"
   placeholder="Search by code or course name"
-  (input)="searchTerm.set($any($event.target).value)"
+  (input)="setSearchTerm($event)"
 />
 
 <label for="subject-filter">Subject</label>
@@ -28,46 +28,74 @@
   {{ sortDirection() === 'asc' ? '↑' : '↓' }}
 </p>
 
-<table>
-  <thead>
-    <tr>
-      <th>
-        <button type="button" (click)="setSort('courseCode')">Code</button>
-      </th>
-
-      <th>
-        <button type="button" (click)="setSort('courseName')">Course</button>
-      </th>
-
-      <th>
-        <button type="button" (click)="setSort('subject')">Subject</button>
-      </th>
-
-      <th>
-        <button type="button" (click)="setSort('points')">Credits</button>
-      </th>
-
-      <th>Add to planner</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    @for (course of sortedCourses(); track course) {
+@if (filteredCourses().length > 0) {
+  <table>
+    <thead>
       <tr>
-        <td>{{ course.courseCode }}</td>
-        <td>
-          <a [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
-            {{ course.courseName }}
-          </a>
-        </td>
-        <td>{{ course.subject }}</td>
-        <td>{{ course.points }}</td>
-        <td>
-          <button type="button" (click)="toggleCourse(course)">
-            {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
-          </button>
-        </td>
+        <th>
+          <button type="button" (click)="setSort('courseCode')">Code</button>
+        </th>
+
+        <th>
+          <button type="button" (click)="setSort('courseName')">Course</button>
+        </th>
+
+        <th>
+          <button type="button" (click)="setSort('subject')">Subject</button>
+        </th>
+
+        <th>
+          <button type="button" (click)="setSort('points')">Credits</button>
+        </th>
+
+        <th>Add to planner</th>
       </tr>
-    }
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      @for (course of paginatedCourses(); track course) {
+        <tr>
+          <td>{{ course.courseCode }}</td>
+          <td>
+            <a [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
+              {{ course.courseName }}
+            </a>
+          </td>
+          <td>{{ course.subject }}</td>
+          <td>{{ course.points }}</td>
+          <td>
+            <button type="button" (click)="toggleCourse(course)">
+              {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <nav class="paginator" aria-label="Course pagination">
+    <button type="button" (click)="prev()" [disabled]="pageIndex() === 0">Previous</button>
+
+    <span>
+      Showing {{ startCourse() }}–{{ endCourse() }} of {{ filteredCourses().length }} courses · Page
+      {{ pageIndex() + 1 }} of {{ totalPages() }}
+    </span>
+
+    <button type="button" (click)="next()" [disabled]="pageIndex() >= totalPages() - 1">
+      Next
+    </button>
+
+    <label for="page-size">Per page</label>
+
+    <select id="page-size" [value]="pageSize()" (change)="setPageSize($event)">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+    </select>
+  </nav>
+} @else {
+  <section class="empty-state">
+    <h2>No courses found</h2>
+    <p>Try changing your search or subject filter.</p>
+  </section>
+}
