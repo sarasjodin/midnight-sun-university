@@ -20,11 +20,21 @@ export class Courses {
   courses = toSignal(this.courseService.getCourses(), {
     initialValue: [],
   });
-
   searchTerm = signal('');
   selectedSubject = signal('');
   sortBy = signal<'courseCode' | 'courseName' | 'points' | 'subject'>('courseCode');
   sortDirection = signal<'asc' | 'desc'>('asc');
+  pageIndex = signal(0);
+  pageSize = signal(10);
+  /* Get the first course number on the current page */
+  startCourse = computed(() => {
+    return this.pageIndex() * this.pageSize() + 1;
+  });
+  /* Get the last course number on the current page */
+  endCourse = computed(() => {
+    const end = (this.pageIndex() + 1) * this.pageSize();
+    return Math.min(end, this.filteredCourses().length);
+  });
 
   /* Create a list of unique subjects from all courses */
   subjects = computed(() => {
@@ -111,5 +121,47 @@ export class Courses {
   setSubject(event: Event) {
     const select = event.target as HTMLSelectElement;
     this.selectedSubject.set(select.value);
+    this.pageIndex.set(0);
+  }
+
+  totalPages = computed(() => {
+    return Math.ceil(this.sortedCourses().length / this.pageSize());
+  });
+
+  paginatedCourses = computed(() => {
+    const start = this.pageIndex() * this.pageSize();
+    const end = start + this.pageSize();
+
+    return this.sortedCourses().slice(start, end);
+  });
+
+  /* Go to the previous page */
+  prev() {
+    if (this.pageIndex() > 0) {
+      this.pageIndex.update((page) => page - 1);
+    }
+  }
+
+  /* Go to the next page */
+  next() {
+    if (this.pageIndex() < this.totalPages() - 1) {
+      this.pageIndex.update((page) => page + 1);
+    }
+  }
+
+  /* Change number of courses per page */
+  setPageSize(event: Event) {
+    const select = event.target as HTMLSelectElement;
+
+    this.pageSize.set(Number(select.value));
+    this.pageIndex.set(0);
+  }
+
+  /* Update the search term */
+  setSearchTerm(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    this.searchTerm.set(input.value);
+    this.pageIndex.set(0);
   }
 }
