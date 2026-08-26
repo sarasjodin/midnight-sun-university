@@ -1,11 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Service, inject } from '@angular/core';
 
 import { Course } from '../models/course';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class CourseService {
   private readonly http = inject(HttpClient);
 
