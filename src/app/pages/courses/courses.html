@@ -23,19 +23,36 @@
 
 <p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
 
+<p>
+  Sort by: {{ sortBy() }}
+  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+</p>
+
 <table>
   <thead>
     <tr>
-      <th>Code</th>
-      <th>Course</th>
-      <th>Credits</th>
-      <th>Subject</th>
+      <th>
+        <button type="button" (click)="setSort('courseCode')">Code</button>
+      </th>
+
+      <th>
+        <button type="button" (click)="setSort('courseName')">Course</button>
+      </th>
+
+      <th>
+        <button type="button" (click)="setSort('points')">Credits</button>
+      </th>
+
+      <th>
+        <button type="button" (click)="setSort('subject')">Subject</button>
+      </th>
+
       <th>Add to planner</th>
     </tr>
   </thead>
 
   <tbody>
-    @for (course of filteredCourses(); track course.courseCode) {
+    @for (course of sortedCourses(); track course.courseCode) {
       <tr>
         <td>{{ course.courseCode }}</td>
         <td>
