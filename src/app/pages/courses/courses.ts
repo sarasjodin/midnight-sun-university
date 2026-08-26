@@ -21,6 +21,9 @@ export class Courses {
   sortBy = signal<'courseCode' | 'courseName' | 'points' | 'subject'>('courseCode');
   sortDirection = signal<'asc' | 'desc'>('asc');
 
+  // TODO: To be moved to a ScheduleService
+  selectedCourses = signal<Course[]>([]);
+
   /* Create a list of unique subjects from all courses */
   subjects = computed(() => {
     const subjects = this.courses().map((course) => course.subject);
@@ -83,6 +86,37 @@ export class Courses {
     } else {
       this.sortBy.set(column);
       this.sortDirection.set('asc');
+    }
+  }
+
+  /* Add a course to the selected courses */
+  addCourse(course: Course) {
+    this.selectedCourses.update((courses) => {
+      /* Copy the course list before adding a new course */
+      const updatedCourses = courses.slice();
+      updatedCourses.push(course);
+      return updatedCourses;
+    });
+  }
+
+  /* Check if a course is already added */
+  isAdded(courseCode: string) {
+    return this.selectedCourses().some((course) => course.courseCode === courseCode);
+  }
+
+  /* Remove a course by course code */
+  removeCourse(courseCode: string) {
+    this.selectedCourses.update((courses) => {
+      return courses.filter((course) => course.courseCode !== courseCode);
+    });
+  }
+
+  /* Add or remove a course */
+  toggleCourse(course: Course) {
+    if (this.isAdded(course.courseCode)) {
+      this.removeCourse(course.courseCode);
+    } else {
+      this.addCourse(course);
     }
   }
 

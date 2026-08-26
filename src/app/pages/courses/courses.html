@@ -63,7 +63,9 @@
         <td>{{ course.points }}</td>
         <td>{{ course.subject }}</td>
         <td>
-          <button type="button">Add</button>
+          <button type="button" (click)="toggleCourse(course)">
+            {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
+          </button>
         </td>
       </tr>
     }
