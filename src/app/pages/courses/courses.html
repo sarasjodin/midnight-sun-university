@@ -40,11 +40,11 @@
       </th>
 
       <th>
-        <button type="button" (click)="setSort('points')">Credits</button>
+        <button type="button" (click)="setSort('subject')">Subject</button>
       </th>
 
       <th>
-        <button type="button" (click)="setSort('subject')">Subject</button>
+        <button type="button" (click)="setSort('points')">Credits</button>
       </th>
 
       <th>Add to planner</th>
@@ -60,8 +60,8 @@
             {{ course.courseName }}
           </a>
         </td>
-        <td>{{ course.points }}</td>
         <td>{{ course.subject }}</td>
+        <td>{{ course.points }}</td>
         <td>
           <button type="button" (click)="toggleCourse(course)">
             {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
