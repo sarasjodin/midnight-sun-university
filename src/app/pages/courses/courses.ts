@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CourseService } from '../../services/course.service';
+import { ScheduleService } from '../../services/schedule.service';
 import { Course } from '../../models/course';
 
 @Component({
@@ -10,7 +11,11 @@ import { Course } from '../../models/course';
   templateUrl: './courses.html',
 })
 export class Courses {
+  /* Fetch courses from JSON */
   private readonly courseService = inject(CourseService);
+
+  /* Inject ScheduleService to manage selected courses */
+  private readonly scheduleService = inject(ScheduleService);
 
   courses = toSignal(this.courseService.getCourses(), {
     initialValue: [],
@@ -20,9 +25,6 @@ export class Courses {
   selectedSubject = signal('');
   sortBy = signal<'courseCode' | 'courseName' | 'points' | 'subject'>('courseCode');
   sortDirection = signal<'asc' | 'desc'>('asc');
-
-  // TODO: To be moved to a ScheduleService
-  selectedCourses = signal<Course[]>([]);
 
   /* Create a list of unique subjects from all courses */
   subjects = computed(() => {
@@ -89,35 +91,20 @@ export class Courses {
     }
   }
 
-  /* Add a course to the selected courses */
-  addCourse(course: Course) {
-    this.selectedCourses.update((courses) => {
-      /* Copy the course list before adding a new course */
-      const updatedCourses = courses.slice();
-      updatedCourses.push(course);
-      return updatedCourses;
-    });
-  }
-
   /* Check if a course is already added */
   isAdded(courseCode: string) {
-    return this.selectedCourses().some((course) => course.courseCode === courseCode);
-  }
-
-  /* Remove a course by course code */
-  removeCourse(courseCode: string) {
-    this.selectedCourses.update((courses) => {
-      return courses.filter((course) => course.courseCode !== courseCode);
-    });
+    return this.scheduleService.isAdded(courseCode);
   }
 
   /* Add or remove a course */
   toggleCourse(course: Course) {
     if (this.isAdded(course.courseCode)) {
-      this.removeCourse(course.courseCode);
+      this.scheduleService.removeCourse(course.courseCode);
     } else {
-      this.addCourse(course);
+      this.scheduleService.addCourse(course);
     }
+    // TODO: Remove when Planner page is implemented
+    console.log(this.scheduleService.selectedCourses());
   }
 
   /* Update the selected subject from the dropdown */
