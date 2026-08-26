@@ -16,15 +16,35 @@ export class Courses {
   });
 
   searchTerm = signal('');
+  selectedSubject = signal('');
 
+  /* Create a list of unique subjects from all courses */
+  subjects = computed(() => {
+    const subjects = this.courses().map((course) => course.subject);
+    const uniqueSubjects = new Set(subjects);
+
+    return Array.from(uniqueSubjects);
+  });
+
+  /* Filter courses by search term and selected subject */
   filteredCourses = computed(() => {
     const search = this.searchTerm().trim().toLowerCase();
+    const subject = this.selectedSubject();
 
     return this.courses().filter((course) => {
-      return (
+      const matchesSearch =
         course.courseCode.toLowerCase().includes(search) ||
-        course.courseName.toLowerCase().includes(search)
-      );
+        course.courseName.toLowerCase().includes(search);
+
+      const matchesSubject = subject === '' || course.subject === subject;
+
+      return matchesSearch && matchesSubject;
     });
   });
+
+  /* Update the selected subject from the dropdown */
+  setSubject(event: Event) {
+    const select = event.target as HTMLSelectElement;
+    this.selectedSubject.set(select.value);
+  }
 }

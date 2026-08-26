@@ -11,6 +11,16 @@
   (input)="searchTerm.set($any($event.target).value)"
 />
 
+<label for="subject-filter">Subject</label>
+
+<select id="subject-filter" (change)="setSubject($event)">
+  <option value="">All subjects</option>
+
+  @for (subject of subjects(); track subject) {
+    <option [value]="subject">{{ subject }}</option>
+  }
+</select>
+
 <p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
 
 <table>
