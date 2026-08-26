@@ -23,23 +23,28 @@
 
 <p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
 
+<p>
+  Sort by: {{ sortBy() }}
+  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+</p>
+
 <table>
   <thead>
     <tr>
       <th>
-        <button type="button" (click)="sortBy.set('courseCode')">Code</button>
+        <button type="button" (click)="setSort('courseCode')">Code</button>
       </th>
 
       <th>
-        <button type="button" (click)="sortBy.set('courseName')">Course</button>
+        <button type="button" (click)="setSort('courseName')">Course</button>
       </th>
 
       <th>
-        <button type="button" (click)="sortBy.set('points')">Credits</button>
+        <button type="button" (click)="setSort('points')">Credits</button>
       </th>
 
       <th>
-        <button type="button" (click)="sortBy.set('subject')">Subject</button>
+        <button type="button" (click)="setSort('subject')">Subject</button>
       </th>
 
       <th>Add to planner</th>

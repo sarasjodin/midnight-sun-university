@@ -19,6 +19,7 @@ export class Courses {
   searchTerm = signal('');
   selectedSubject = signal('');
   sortBy = signal<'courseCode' | 'courseName' | 'points' | 'subject'>('courseCode');
+  sortDirection = signal<'asc' | 'desc'>('asc');
 
   /* Create a list of unique subjects from all courses */
   subjects = computed(() => {
@@ -44,30 +45,46 @@ export class Courses {
     });
   });
 
-  /* Sort filtered courses by the selected column */
+  /* Sort filtered courses by the selected column and direction */
   sortedCourses = computed(() => {
     /* Copy the filtered list before sorting it */
     const courses = this.filteredCourses().slice();
+
     const sortBy = this.sortBy();
+    const direction = this.sortDirection();
 
     if (sortBy === 'courseCode') {
-      return courses.sort((a, b) => a.courseCode.localeCompare(b.courseCode, 'sv'));
+      courses.sort((a, b) => a.courseCode.localeCompare(b.courseCode, 'sv'));
     }
 
     if (sortBy === 'courseName') {
-      return courses.sort((a, b) => a.courseName.localeCompare(b.courseName, 'sv'));
+      courses.sort((a, b) => a.courseName.localeCompare(b.courseName, 'sv'));
     }
 
     if (sortBy === 'points') {
-      return courses.sort((a, b) => a.points - b.points);
+      courses.sort((a, b) => a.points - b.points);
     }
 
     if (sortBy === 'subject') {
-      return courses.sort((a, b) => a.subject.localeCompare(b.subject, 'sv'));
+      courses.sort((a, b) => a.subject.localeCompare(b.subject, 'sv'));
+    }
+
+    if (direction === 'desc') {
+      courses.reverse();
     }
 
     return courses;
   });
+
+  /* Change sort column or toggle sort direction */
+  setSort(column: 'courseCode' | 'courseName' | 'points' | 'subject') {
+    if (this.sortBy() === column) {
+      this.sortDirection.set(this.sortDirection() === 'asc' ? 'desc' : 'asc');
+    } else {
+      this.sortBy.set(column);
+      this.sortDirection.set('asc');
+    }
+  }
 
   /* Update the selected subject from the dropdown */
   setSubject(event: Event) {
