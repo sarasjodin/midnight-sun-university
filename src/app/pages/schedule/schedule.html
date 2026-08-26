@@ -1,3 +1,41 @@
 <h1>My study planner</h1>
 
 <p>This list shows the courses you added from the Courses page.</p>
+
+<p><strong>Number of courses</strong> {{ selectedCourses().length }}</p>
+<p><strong>Total credits</strong> {{ totalCredits() }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>
+        <button type="button">Code</button>
+      </th>
+      <th>
+        <button type="button">Course</button>
+      </th>
+      <th>
+        <button type="button">Subject</button>
+      </th>
+      <th>
+        <button type="button">Credits</button>
+      </th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (course of selectedCourses(); track course) {
+      <tr>
+        <td>{{ course.courseCode }}</td>
+        <td>
+          <a [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
+            {{ course.courseName }}
+          </a>
+        </td>
+        <td>{{ course.subject }}</td>
+        <td>{{ course.points }}</td>
+        <td><button type="button" (click)="removeCourse(course.courseCode)">Remove</button></td>
+      </tr>
+    }
+  </tbody>
+</table>
