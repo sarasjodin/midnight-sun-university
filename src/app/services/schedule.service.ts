@@ -3,7 +3,27 @@ import { Course } from '../models/course';
 
 @Service()
 export class ScheduleService {
-  selectedCourses = signal<Course[]>([]);
+  private readonly STORAGE_KEY = 'selectedCourses';
+  /* selectedCourses = signal<Course[]>([]); */
+
+  /* Initialize selectedCourses with courses loaded from localStorage */
+  selectedCourses = signal<Course[]>(this.loadCourses());
+
+  /* Load selected courses from localStorage */
+  private loadCourses() {
+    const savedCourses = localStorage.getItem(this.STORAGE_KEY);
+
+    if (savedCourses) {
+      return JSON.parse(savedCourses) as Course[];
+    }
+
+    return [];
+  }
+
+  /* Save selected courses to localStorage */
+  private saveCourses() {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.selectedCourses()));
+  }
 
   /* Add a course to the selected courses */
   addCourse(course: Course) {
@@ -15,6 +35,8 @@ export class ScheduleService {
         updatedCourses.push(course);
         return updatedCourses;
       });
+
+      this.saveCourses();
     }
   }
 
@@ -28,5 +50,6 @@ export class ScheduleService {
     this.selectedCourses.update((courses) => {
       return courses.filter((course) => course.courseCode !== courseCode);
     });
+    this.saveCourses();
   }
 }
