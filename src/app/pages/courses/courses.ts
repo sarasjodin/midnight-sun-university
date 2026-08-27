@@ -99,6 +99,7 @@ export class Courses {
       this.sortBy.set(column);
       this.sortDirection.set('asc');
     }
+    this.pageIndex.set(0);
   }
 
   /* Check if a course is already added */
