@@ -1,101 +1,211 @@
-<h1>Course catalogue</h1>
+<section class="page">
+  <div class="page-tools">
+    <h1>Course catalogue</h1>
 
-<p>Browse courses and add them to your study plan.</p>
+    <p>Browse courses and add them to your study plan.</p>
 
-<label for="course-search">Search courses</label>
+    <div class="filters">
+      <div>
+        <label for="course-search">Search courses</label>
 
-<input
-  id="course-search"
-  type="text"
-  placeholder="Search by code or course name"
-  (input)="setSearchTerm($event)"
-/>
+        <input
+          id="course-search"
+          type="text"
+          placeholder="Search by code or course name"
+          (input)="setSearchTerm($event)"
+        />
+      </div>
+      <div>
+        <label for="subject-filter">Subject</label>
 
-<label for="subject-filter">Subject</label>
+        <select id="subject-filter" (change)="setSubject($event)">
+          <option value="">All subjects</option>
 
-<select id="subject-filter" (change)="setSubject($event)">
-  <option value="">All subjects</option>
+          @for (subject of subjects(); track subject) {
+            <option [value]="subject">{{ subject }}</option>
+          }
+        </select>
+      </div>
+    </div>
+    <div class="course-info">
+      <p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
+    </div>
+  </div>
+  @if (filteredCourses().length > 0) {
+    <div class="table-container desktop-table">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('courseCode')">
+                Code
+                @if (sortBy() === 'courseCode') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('courseName')">
+                Course
+                @if (sortBy() === 'courseName') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('subject')">
+                Subject
+                @if (sortBy() === 'subject') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
 
-  @for (subject of subjects(); track subject) {
-    <option [value]="subject">{{ subject }}</option>
-  }
-</select>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('points')">
+                Credits
+                @if (sortBy() === 'points') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
 
-<p><strong>Number of courses</strong> {{ filteredCourses().length }}</p>
+            <th class="action">Add to<br />planner</th>
+          </tr>
+        </thead>
 
-<p>
-  Sort by: {{ sortBy() }}
-  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
-</p>
+        <tbody>
+          @for (course of paginatedCourses(); track $index) {
+            <tr>
+              <td>{{ course.courseCode }}</td>
+              <td>
+                <a
+                  class="course-name"
+                  [href]="course.syllabus"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ course.courseName }}
 
-@if (filteredCourses().length > 0) {
-  <table>
-    <thead>
-      <tr>
-        <th>
-          <button type="button" (click)="setSort('courseCode')">Code</button>
-        </th>
+                  <img
+                    class="external-link-icon"
+                    src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </td>
+              <td>{{ course.subject }}</td>
+              <td>{{ course.points }}</td>
+              <td>
+                <button
+                  type="button"
+                  class="add-button"
+                  [class.added]="isAdded(course.courseCode)"
+                  (click)="toggleCourse(course)"
+                >
+                  {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
-        <th>
-          <button type="button" (click)="setSort('courseName')">Course</button>
-        </th>
+    <div class="mobile-sort">
+      <span>Sort by</span>
 
-        <th>
-          <button type="button" (click)="setSort('subject')">Subject</button>
-        </th>
+      <button type="button" class="control-button" (click)="setSort('courseCode')">
+        Code
+        @if (sortBy() === 'courseCode') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-        <th>
-          <button type="button" (click)="setSort('points')">Credits</button>
-        </th>
+      <button type="button" class="control-button" (click)="setSort('courseName')">
+        Course
+        @if (sortBy() === 'courseName') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-        <th>Add to planner</th>
-      </tr>
-    </thead>
+      <button type="button" class="control-button" (click)="setSort('subject')">
+        Subject
+        @if (sortBy() === 'subject') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-    <tbody>
-      @for (course of paginatedCourses(); track course) {
-        <tr>
-          <td>{{ course.courseCode }}</td>
-          <td>
-            <a [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
-              {{ course.courseName }}
-            </a>
-          </td>
-          <td>{{ course.subject }}</td>
-          <td>{{ course.points }}</td>
-          <td>
-            <button type="button" (click)="toggleCourse(course)">
-              {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
-            </button>
-          </td>
-        </tr>
+      <button type="button" class="control-button" (click)="setSort('points')">
+        Credits
+        @if (sortBy() === 'points') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
+    </div>
+
+    <div class="mobile-course-list">
+      @for (course of paginatedCourses(); track $index) {
+        <article class="course-card">
+          <div class="course-card-top">
+            <strong>{{ course.courseCode }}</strong>
+            <span>{{ course.points }} credits</span>
+          </div>
+
+          <a class="course-name" [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
+            {{ course.courseName }}
+            <img
+              class="external-link-icon"
+              src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </a>
+
+          <p>{{ course.subject }}</p>
+
+          <button
+            type="button"
+            class="add-button"
+            [class.added]="isAdded(course.courseCode)"
+            (click)="toggleCourse(course)"
+          >
+            {{ isAdded(course.courseCode) ? 'Added' : 'Add' }}
+          </button>
+        </article>
       }
-    </tbody>
-  </table>
+    </div>
 
-  <nav class="paginator" aria-label="Course pagination">
-    <button type="button" (click)="prev()" [disabled]="pageIndex() === 0">Previous</button>
+    <nav class="paginator" aria-label="Course pagination">
+      <button type="button" (click)="prev()" [disabled]="pageIndex() === 0">Previous</button>
 
-    <span>
-      Showing {{ startCourse() }}–{{ endCourse() }} of {{ filteredCourses().length }} courses · Page
-      {{ pageIndex() + 1 }} of {{ totalPages() }}
-    </span>
+      <div class="page-info">
+        <span>
+          Showing {{ startCourse() }}–{{ endCourse() }} of {{ filteredCourses().length }} courses
+        </span>
 
-    <button type="button" (click)="next()" [disabled]="pageIndex() >= totalPages() - 1">
-      Next
-    </button>
+        <span class="page-number"> Page {{ pageIndex() + 1 }} of {{ totalPages() }} </span>
+      </div>
 
-    <label for="page-size">Per page</label>
+      <button type="button" (click)="next()" [disabled]="pageIndex() >= totalPages() - 1">
+        Next
+      </button>
 
-    <select id="page-size" [value]="pageSize()" (change)="setPageSize($event)">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-    </select>
-  </nav>
-} @else {
-  <section class="empty-state">
-    <h2>No courses found</h2>
-    <p>Try changing your search or subject filter.</p>
-  </section>
-}
+      <div class="page-size">
+        <label for="page-size">Per page</label>
+
+        <select id="page-size" [value]="pageSize()" (change)="setPageSize($event)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </nav>
+  } @else {
+    <section class="empty-state">
+      <h2>No courses found</h2>
+      <p>Try changing your search or subject filter.</p>
+    </section>
+  }
+</section>
