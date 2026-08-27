@@ -13,14 +13,14 @@
       </span>
     </a>
     <nav aria-label="Main navigation">
-      <a routerLink="/courses" routerLinkActive="active"
+      <a routerLink="/" [class.active]="isCoursesActive()"
         ><img src="assets/icons/school_24dp_CURRENTCOLOR.svg" alt="" aria-hidden="true" /><span
           >Courses</span
         ></a
       >
 
-      <a routerLink="/schedule" routerLinkActive="active">
-        <img src="assets/icons/calendar_24dp_CURRENTCOLOR.svg" alt="" aria-hidden="true" /><span
+      <a routerLink="/schedule" routerLinkActive="active"
+        ><img src="assets/icons/calendar_24dp_CURRENTCOLOR.svg" alt="" aria-hidden="true" /><span
           >Planner</span
         ></a
       >
