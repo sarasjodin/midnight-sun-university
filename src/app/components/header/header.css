@@ -13,14 +13,19 @@
 }
 
 .header-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-block: clamp(0.1rem, 5vw, 0.9rem);
-  padding-inline: clamp(0.1rem, 5vw, 1.5rem);
+  /*
+  gap: clamp(0.1rem, 2vw, 2rem); */
+}
+
+.header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(0.1rem, 2vw, 2rem);
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 /* Brand */

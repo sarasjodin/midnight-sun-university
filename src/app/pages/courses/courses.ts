@@ -26,6 +26,25 @@ export class Courses {
   sortDirection = signal<'asc' | 'desc'>('asc');
   pageIndex = signal(0);
   pageSize = signal(10);
+
+  sortLabel() {
+    const sortBy = this.sortBy();
+
+    if (sortBy === 'courseCode') {
+      return 'Code';
+    }
+
+    if (sortBy === 'courseName') {
+      return 'Course';
+    }
+
+    if (sortBy === 'points') {
+      return 'Credits';
+    }
+
+    return 'Subject';
+  }
+
   /* Get the first course number on the current page */
   startCourse = computed(() => {
     return this.pageIndex() * this.pageSize() + 1;

@@ -1,1 +1,342 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global styles */
+
+:root {
+  --header-height: 130px;
+  --tools-height: 229px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* App layout */
+app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Shared page layout */
+.page {
+  width: 100%;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #d5dfdc;
+  border-radius: 12px;
+  background: #f7faf9;
+}
+
+.page-tools {
+  position: static;
+}
+
+/* Filters and form controls */
+.filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.filters div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.mobile-sort {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+input,
+select {
+  width: 100%;
+  min-width: 0;
+  padding: 0.75rem;
+  border: 1px solid #aebcba;
+  border-radius: 6px;
+  font: inherit;
+}
+
+/* Buttons */
+
+.control-button,
+.table-button,
+.paginator button,
+.paginator select {
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #9fa6b2;
+  border-radius: 8px;
+  background: #eef1f3;
+  color: #18324a;
+  cursor: pointer;
+}
+
+.control-button:hover,
+.table-button:hover {
+  background: #dfe7e5;
+}
+
+.paginator button:hover:not(:disabled) {
+  background: #dfe7e5;
+}
+
+.paginator button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  background: #e4e8e7;
+  color: #7a8583;
+}
+
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid #b8c5c9;
+  border-radius: 999px;
+  background: #dce4e6;
+  color: #183f61;
+  font: inherit;
+  cursor: pointer;
+}
+
+.add-button.added {
+  background: #d58a00;
+  color: white;
+  border-color: #b87800;
+}
+
+.page-tools h1 {
+  margin-top: 0;
+}
+
+.course-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.desktop-table {
+  display: none;
+}
+
+/* Mobile course list and cards */
+.mobile-course-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.course-card {
+  padding: 1rem;
+  border: 1px solid #aebcba;
+  border-radius: 12px;
+  background: #f7faf9;
+}
+
+.course-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.course-card button {
+  margin-top: 1rem;
+}
+
+/* Course links */
+.course-name {
+  color: #cc8200;
+  text-decoration-color: #cc8200;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.course-name:hover {
+  color: #a66800;
+}
+
+.external-link-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: translateY(3px);
+}
+
+/* Pagination */
+
+.page-size {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.paginator label {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+}
+
+.page-number {
+  display: none;
+}
+
+.paginator {
+  padding: 1rem 1.5rem;
+  background: #d2dcd9;
+  border-top: 1px solid #d5dfdc;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-direction: column;
+  border-radius: 12px;
+}
+
+@media (min-width: 800px) {
+  main {
+    padding: 3rem 1rem;
+  }
+
+  .page {
+    padding: 2rem;
+  }
+
+  .page-tools {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 20;
+    background: #f7faf9;
+  }
+
+  .page-number {
+    display: inline;
+  }
+
+  .page-size {
+    justify-content: flex-end;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 1rem;
+    min-width: 0;
+  }
+
+  .mobile-sort {
+    display: none;
+  }
+
+  .mobile-course-list {
+    display: none;
+  }
+
+  /* Desktop table layout */
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  thead {
+    background: #eaf2f0;
+  }
+
+  th,
+  td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #d5dfdc;
+    vertical-align: middle;
+    line-height: 1.2;
+  }
+
+  th {
+    position: sticky;
+    top: calc(var(--header-height) + var(--tools-height));
+    z-index: 10;
+    vertical-align: middle;
+    background: #eaf2f0;
+  }
+
+  tbody tr:hover {
+    background: #f0f6f4;
+  }
+
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 16%;
+    text-align: center;
+  }
+
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 31%;
+  }
+
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 21%;
+  }
+
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 12%;
+    text-align: center;
+  }
+
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 20%;
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  th button {
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    padding: 0.35rem 0.6rem;
+  }
+
+  th.action {
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+  }
+
+  .desktop-table {
+    display: block;
+  }
+
+  .paginator {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0;
+    margin-top: 0;
+  }
+}
