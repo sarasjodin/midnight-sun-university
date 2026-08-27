@@ -5,8 +5,7 @@ import { Schedule } from './pages/schedule/schedule';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'courses',
-    pathMatch: 'full',
+    component: Courses,
   },
   {
     path: 'courses',
@@ -18,6 +17,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'courses',
+    redirectTo: '',
   },
 ];
