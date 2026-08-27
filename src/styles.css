@@ -2,7 +2,14 @@
 
 :root {
   --header-height: 130px;
+}
+
+.page.courses {
   --tools-height: 229px;
+}
+
+.page.planner {
+  --tools-height: 150px;
 }
 
 * {
@@ -93,11 +100,28 @@ select {
   background: #eef1f3;
   color: #18324a;
   cursor: pointer;
+  height: 44px;
+}
+
+.remove-button {
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #ff836e;
+  border-radius: 8px;
+  background: #eef1f3;
+  color: #18324a;
+  cursor: pointer;
+  height: 44px;
 }
 
 .control-button:hover,
 .table-button:hover {
   background: #dfe7e5;
+}
+
+.remove-button:hover {
+  border: 1px solid #f74121;
+  background: #f8c3a7;
 }
 
 .paginator button:hover:not(:disabled) {
@@ -123,11 +147,25 @@ select {
   color: #183f61;
   font: inherit;
   cursor: pointer;
+  height: 44px;
+  width: 76px;
+}
+
+.add-button:hover {
+  border: 1px solid #b87800;
+  background: #183f61;
+  color: #dce4e6;
 }
 
 .add-button.added {
   background: #d58a00;
   color: white;
+  border-color: #b87800;
+}
+
+.add-button.added:hover {
+  background: #ffca69;
+  color: #183f61;
   border-color: #b87800;
 }
 

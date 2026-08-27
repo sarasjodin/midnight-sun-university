@@ -1,77 +1,183 @@
-<h1>My study planner</h1>
+<section class="page planner">
+  <div class="page-tools">
+    <h1>My study planner</h1>
 
-<p>This list shows the courses you added from the Courses page.</p>
+    <p>This list shows the courses you added from the Courses page.</p>
+    <div class="course-info">
+      <p><strong>Number of courses</strong> {{ selectedCourses().length }}</p>
+      <p><strong>Total credits</strong> {{ totalCredits() }}</p>
+    </div>
+  </div>
+  @if (selectedCourses().length > 0) {
+    <div class="table-container desktop-table">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('courseCode')">
+                Code
+                @if (sortBy() === 'courseCode') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('courseName')">
+                Course
+                @if (sortBy() === 'courseName') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('subject')">
+                Subject
+                @if (sortBy() === 'subject') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
 
-<p><strong>Number of courses</strong> {{ selectedCourses().length }}</p>
-<p><strong>Total credits</strong> {{ totalCredits() }}</p>
+            <th>
+              <button class="table-button" type="button" (click)="setSort('points')">
+                Credits
+                @if (sortBy() === 'points') {
+                  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+                }
+              </button>
+            </th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (course of paginatedSelectedCourses(); track $index) {
+            <tr>
+              <td>{{ course.courseCode }}</td>
+              <td>
+                <a
+                  class="course-name"
+                  [href]="course.syllabus"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {{ course.courseName }}
 
-<p>
-  Sort by: {{ sortBy() }}
-  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
-</p>
+                  <img
+                    class="external-link-icon"
+                    src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
+                    alt=""
+                    aria-hidden="true"
+                  />
+                </a>
+              </td>
+              <td>{{ course.subject }}</td>
+              <td>{{ course.points }}</td>
+              <td>
+                <button
+                  class="remove-button"
+                  type="button"
+                  (click)="removeCourse(course.courseCode)"
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="mobile-sort">
+      <span>Sort by</span>
 
-@if (selectedCourses().length > 0) {
-  <table>
-    <thead>
-      <tr>
-        <th>
-          <button type="button" (click)="setSort('courseCode')">Code</button>
-        </th>
+      <button type="button" class="control-button" (click)="setSort('courseCode')">
+        Code
+        @if (sortBy() === 'courseCode') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-        <th>
-          <button type="button" (click)="setSort('courseName')">Course</button>
-        </th>
+      <button type="button" class="control-button" (click)="setSort('courseName')">
+        Course
+        @if (sortBy() === 'courseName') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-        <th>
-          <button type="button" (click)="setSort('subject')">Subject</button>
-        </th>
+      <button type="button" class="control-button" (click)="setSort('subject')">
+        Subject
+        @if (sortBy() === 'subject') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
 
-        <th>
-          <button type="button" (click)="setSort('points')">Credits</button>
-        </th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (course of paginatedSelectedCourses(); track course) {
-        <tr>
-          <td>{{ course.courseCode }}</td>
-          <td>
-            <a [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
+      <button type="button" class="control-button" (click)="setSort('points')">
+        Credits
+        @if (sortBy() === 'points') {
+          {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+        }
+      </button>
+    </div>
+
+    <div class="mobile-course-list">
+      @for (course of paginatedSelectedCourses(); track $index) {
+        <article class="course-card">
+          <div class="course-card-top">
+            <strong>{{ course.courseCode }}</strong>
+            <span>{{ course.points }} credits</span>
+          </div>
+          <h2 class="course-card-title">
+            <a
+              class="course-name"
+              [href]="course.syllabus"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {{ course.courseName }}
+              <img
+                class="external-link-icon"
+                src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
+                alt=""
+                aria-hidden="true"
+              />
             </a>
-          </td>
-          <td>{{ course.subject }}</td>
-          <td>{{ course.points }}</td>
-          <td><button type="button" (click)="removeCourse(course.courseCode)">Remove</button></td>
-        </tr>
+          </h2>
+
+          <p>{{ course.subject }}</p>
+
+          <button class="remove-button" type="button" (click)="removeCourse(course.courseCode)">
+            Remove
+          </button>
+        </article>
       }
-    </tbody>
-  </table>
+    </div>
+    <nav class="paginator" aria-label="Planner pagination">
+      <button type="button" (click)="prev()" [disabled]="pageIndex() === 0">Previous</button>
+      <div class="page-info">
+        <span
+          >Showing {{ startCourse() }}–{{ endCourse() }} of
+          {{ selectedCourses().length }} courses</span
+        >
 
-  <nav class="paginator" aria-label="Planner pagination">
-    <button type="button" (click)="prev()" [disabled]="pageIndex() === 0">Previous</button>
+        <span class="page-number"> Page {{ pageIndex() + 1 }} of {{ totalPages() }}</span>
+      </div>
 
-    <span>
-      Showing {{ startCourse() }}–{{ endCourse() }} of {{ selectedCourses().length }} courses · Page
-      {{ pageIndex() + 1 }} of {{ totalPages() }}
-    </span>
+      <button type="button" (click)="next()" [disabled]="pageIndex() >= totalPages() - 1">
+        Next
+      </button>
+      <div class="page-size">
+        <label for="page-size">Per page</label>
 
-    <button type="button" (click)="next()" [disabled]="pageIndex() >= totalPages() - 1">
-      Next
-    </button>
-
-    <label for="page-size">Per page</label>
-
-    <select id="page-size" [value]="pageSize()" (change)="setPageSize($event)">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-    </select>
-  </nav>
-} @else {
-  <section class="empty-state">
-    <h2>Your planner is empty</h2>
-    <p>Add courses from the Courses page.</p>
-  </section>
-}
+        <select id="page-size" [value]="pageSize()" (change)="setPageSize($event)">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>
+    </nav>
+  } @else {
+    <section class="empty-state">
+      <h2>Your planner is empty</h2>
+      <p>Add courses from the Courses page.</p>
+    </section>
+  }
+</section>
