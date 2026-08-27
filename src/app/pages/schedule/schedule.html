@@ -5,21 +5,29 @@
 <p><strong>Number of courses</strong> {{ selectedCourses().length }}</p>
 <p><strong>Total credits</strong> {{ totalCredits() }}</p>
 
+<p>
+  Sort by: {{ sortBy() }}
+  {{ sortDirection() === 'asc' ? '↑' : '↓' }}
+</p>
+
 @if (selectedCourses().length > 0) {
   <table>
     <thead>
       <tr>
         <th>
-          <button type="button">Code</button>
+          <button type="button" (click)="setSort('courseCode')">Code</button>
         </th>
+
         <th>
-          <button type="button">Course</button>
+          <button type="button" (click)="setSort('courseName')">Course</button>
         </th>
+
         <th>
-          <button type="button">Subject</button>
+          <button type="button" (click)="setSort('subject')">Subject</button>
         </th>
+
         <th>
-          <button type="button">Credits</button>
+          <button type="button" (click)="setSort('points')">Credits</button>
         </th>
         <th>Action</th>
       </tr>
