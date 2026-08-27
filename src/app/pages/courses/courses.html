@@ -1,4 +1,4 @@
-<section class="page">
+<section class="page courses">
   <div class="page-tools">
     <h1>Course catalogue</h1>
 
@@ -152,16 +152,22 @@
             <strong>{{ course.courseCode }}</strong>
             <span>{{ course.points }} credits</span>
           </div>
-
-          <a class="course-name" [href]="course.syllabus" target="_blank" rel="noopener noreferrer">
-            {{ course.courseName }}
-            <img
-              class="external-link-icon"
-              src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
-              alt=""
-              aria-hidden="true"
-            />
-          </a>
+          <h2 class="course-card-title">
+            <a
+              class="course-name"
+              [href]="course.syllabus"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ course.courseName }}
+              <img
+                class="external-link-icon"
+                src="assets/icons/open_in_new_24dp_CURRENTCOLOR.svg"
+                alt=""
+                aria-hidden="true"
+              />
+            </a>
+          </h2>
 
           <p>{{ course.subject }}</p>
 

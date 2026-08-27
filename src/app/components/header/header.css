@@ -80,12 +80,19 @@ nav a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  height: 44px;
   padding: 0.6rem 1rem;
   border: 1px solid #b8c5c9;
   border-radius: 999px;
   background: #dce6e8;
   color: #183f61;
   text-decoration: none;
+}
+
+nav a:not(.active):hover {
+  background: #c8d6d9;
+  border-color: #8fa3a8;
+  color: black;
 }
 
 nav a img {
