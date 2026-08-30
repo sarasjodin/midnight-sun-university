@@ -1,6 +1,6 @@
-# MidnightSunUniversity
+# Midnight Sun University
 En kursplanerare för ett fiktivt universitet
-[![Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)]
+[Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ec2e9882-0687-429e-a166-5608039c88a9/deploy-status)](https://app.netlify.com/projects/midnight-sun-university/deploys)
 
@@ -55,7 +55,7 @@ ng serve
 
 ## Publicerad webbplats
 Publicerad på Netlify:
-[[Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)]
+[Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)
 
 ---
 
