@@ -1,61 +1,67 @@
 # MidnightSunUniversity
+En kursplanerare för ett fiktivt universitet
+[![Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)]
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/ec2e9882-0687-429e-a166-5608039c88a9/deploy-status)](https://app.netlify.com/projects/midnight-sun-university/deploys)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.5.
+<img width="600" height="auto" alt="image" src="https://github.com/user-attachments/assets/f3f79487-3a66-40da-87d7-d01adc01880c" /> <img width="auto" height="261" alt="image" src="https://github.com/user-attachments/assets/2a9a7c9c-1b6a-4dde-99fe-fc10c96976d1" />
 
-## Development server
+---
 
-To start a local development server, run:
+## Beskrivning
+Midnight Sun University är en Angular-applikation där användaren kan söka,
+filtrera och sortera kurser samt lägga till dem i en personlig Study planner.
+Valda kurser sparas i localStorage och finns kvar efter omladdning.
+
+---
+
+## Kravuppfyllelse och extra funktionalitet
+- Alla krav uppnådda
+- Extra funktionalitet: **Paginering**
+
+---
+
+## Funktioner
+- Kursdata från `miun_courses.json`
+- Sökning och ämnesfiltrering
+- Sortering
+- Paginering
+- Lägga till och ta bort kurser till Study planner
+- Dublettskydd
+- Summering av högskolepoäng
+- Lagring med localStorage
+- Responsiv layout
+
+---
+
+## Tekniker
+- Angular
+- TypeScript
+- HTML
+- CSS
+
+---
+
+## Installation och körning
+Efter kloning:
 
 ```bash
+npm install
 ng serve
+
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Publicerad webbplats
+Publicerad på Netlify:
+[[Midnight Sun University Sweden](https://midnight-sun-university.netlify.app/)]
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## Applikationsstruktur
+<img width="250" height="auto" alt="image" src="https://github.com/user-attachments/assets/3b06fa49-2e58-4174-ad70-377daef08aa1" />
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Översikt över applikationens två huvudsidor, routing, services samt hantering av kursdata och valda kurser.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
